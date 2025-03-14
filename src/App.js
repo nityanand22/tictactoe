@@ -1,11 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
-import GameApp from "./components/GameApp";
+import Body from "./components/Body";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div>
-      <GameApp />
+    <div className="app">
+      <Header />
+      <Body />
     </div>
   );
 }
