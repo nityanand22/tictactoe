@@ -1,14 +1,12 @@
 import HeroPage from "./HeroPage";
-import NewArrivals from "./NewArrivals";
-import TopSelling from "./TopSelling";
+import ClothStore from "./CLothStore";
 
 const Body = () => {
   return (
     <div>
       <HeroPage />
-      <NewArrivals />
       <hr />
-      <TopSelling />
+      <ClothStore />
     </div>
   );
 };
