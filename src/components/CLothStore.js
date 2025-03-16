@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ClothCard from "./ClothCard";
 import productList from "../utils/productList";
+import { Link } from "react-router-dom";
 
 const ClothStore = () => {
   const [productItems, setProductItems] = useState(productList.slice(0, 10));
@@ -11,7 +12,9 @@ const ClothStore = () => {
       <h1 className="font-bold text-2xl text-center mb-6">All Products</h1>
       <div className=" flex flex-wrap justify-around gap-6">
         {productItems.map((product) => (
-          <ClothCard key={product.id} productInfo={product} />
+          <Link to={"/product/" + product.id} key={product.id}>
+            <ClothCard productInfo={product} />
+          </Link>
         ))}
       </div>
       <div className="flex justify-center mt-6">
