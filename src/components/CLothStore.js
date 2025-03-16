@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import ClothCard from "./ClothCard";
 import productList from "../utils/productList";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const ClothStore = () => {
   const [productItems, setProductItems] = useState(productList.slice(0, 10));
   const [viewAll, setViewAll] = useState(true);
+
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false) {
+    return <h1>Looks Like You are offline</h1>;
+  }
 
   return (
     <div className="p-4">

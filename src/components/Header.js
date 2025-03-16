@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Header = () => {
+  const onlineStatus = useOnlineStatus();
+
   return (
     <header className="flex flex-col md:flex-row justify-between items-center p-4 bg-white shadow-md">
       <div className="mb-4 md:mb-0">
@@ -8,6 +11,7 @@ const Header = () => {
       </div>
       <nav className="mb-4 md:mb-0">
         <ul className="flex flex-col md:flex-row list-none justify-around gap-4 md:gap-8">
+          <li>Online Status : {onlineStatus ? "✅" : "🔴"}</li>
           <Link to="/">
             <li className="hover:text-blue-500 cursor-pointer">Home</li>
           </Link>
