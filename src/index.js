@@ -6,10 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
-// import Cart from "./components/Cart";
 import Error from "./components/Error";
 import Body from "./components/Body";
 import ProductPage from "./components/ProductPage";
+import SignUp from "./components/SignUp";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -23,6 +23,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <Body />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
       },
       {
         path: "/about",

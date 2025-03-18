@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import { useContext } from "react";
+import { SearchContext } from "../App";
 
 const Header = () => {
   const onlineStatus = useOnlineStatus();
+  const { searchText, setSearchText, filterProducts } =
+    useContext(SearchContext);
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center p-4 bg-white shadow-md">
@@ -24,6 +28,9 @@ const Header = () => {
           <Link to="/cart">
             <li className="hover:text-blue-500 cursor-pointer">Cart</li>
           </Link>
+          <Link to="/signup">
+            <li className="hover:text-blue-500 cursor-pointer">SignUp</li>
+          </Link>
         </ul>
       </nav>
       <div className="flex items-center mb-4 md:mb-0">
@@ -31,15 +38,20 @@ const Header = () => {
         <input
           className="border border-gray-300 rounded-lg p-2 mr-2"
           placeholder="Search for products..."
+          value={searchText}
+          onChange={(evt) => setSearchText(evt.target.value)}
         />
-        <button className="bg-blue-500 text-white rounded-lg p-2">
+        <button
+          className="bg-blue-500 text-white rounded-lg p-2"
+          onClick={filterProducts}
+        >
           Search
         </button>
       </div>
-      <div className="flex items-center gap-4">
+      {/* <div className="flex items-center gap-4">
         <span className="cursor-pointer">🛒</span>
         <span className="cursor-pointer">👤</span>
-      </div>
+      </div> */}
     </header>
   );
 };
