@@ -22,13 +22,13 @@ const ClothStore = () => {
     <div className="p-4">
       <h1 className="font-bold text-2xl text-center mb-6">All Products</h1>
       <div className=" flex flex-wrap justify-around gap-6">
-        {filteredList.slice(0, 10).map((product) => (
+        {filteredList.map((product) => (
           <Link to={"/product/" + product.id} key={product.id}>
             <ClothCard productInfo={product} />
           </Link>
         ))}
       </div>
-      <div className="flex justify-center mt-6">
+      {/* <div className="flex justify-center mt-6">
         <button
           className="text-xs py-2 px-10 border rounded-2xl"
           onClick={
@@ -45,7 +45,7 @@ const ClothStore = () => {
         >
           {viewAll ? "View All" : "Hide"}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

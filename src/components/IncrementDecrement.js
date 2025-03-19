@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { SearchContext } from "../App";
 
 const IncrementDecrement = () => {
-  const [val, setVal] = useState(1);
+  const { val, setVal } = useOutletContext(SearchContext);
 
   return (
     <div className="flex items-center mt-4">
