@@ -49,3 +49,4 @@ export const SearchProvider = ({ children }) => {
     </SearchContext.Provider>
   );
 };
+// SearchProvider
