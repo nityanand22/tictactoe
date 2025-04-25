@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ClothCard from "./ClothCard";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import { SearchContext } from "../contexts/SearchContext";
+import { SearchContext } from "../utils/SearchContext";
 
 const ClothStore = () => {
   const { filteredList } = useContext(SearchContext);

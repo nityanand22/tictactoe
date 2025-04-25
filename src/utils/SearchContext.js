@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import productList from "../utils/productList";
+import productList from "./productList";
 
 export const SearchContext = createContext();
 

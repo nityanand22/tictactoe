@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { useContext, useEffect, useState } from "react";
-import { SearchContext } from "../contexts/SearchContext";
+import { SearchContext } from "../utils/SearchContext";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";

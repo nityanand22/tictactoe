@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { SearchContext } from "../contexts/SearchContext";
+import { SearchContext } from "../utils/SearchContext";
 
 const Cart = () => {
   const { cartData, handleRemoveFromCart, val } = useContext(SearchContext);

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import IncrementDecrement from "./IncrementDecrement";
 import useProductData from "../utils/useProductData";
-import { SearchContext } from "../contexts/SearchContext";
+import { SearchContext } from "../utils/SearchContext";
 
 const ProductPage = () => {
   const { Id } = useParams();
