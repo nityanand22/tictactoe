@@ -1,16 +1,13 @@
-import React from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import IncrementDecrement from "./IncrementDecrement";
 import useProductData from "../utils/useProductData";
-import { useState } from "react";
-import { SearchContext } from "../App";
+import { SearchContext } from "../contexts/SearchContext";
 
 const ProductPage = () => {
   const { Id } = useParams();
-
   const product = useProductData(Id);
-
-  const { handleAddToCart } = useOutletContext(SearchContext);
+  const { handleAddToCart, val, setVal } = useContext(SearchContext);
 
   if (!product) {
     return <div className="text-center text-2xl">Loading...</div>;
@@ -38,15 +35,13 @@ const ProductPage = () => {
             <strong>Rating:</strong> {rate} ({count} reviews)
           </p>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 active:text-blue-500  active:bg-white border border-blue-500"
-            onClick={() => {
-              handleAddToCart(Id);
-            }}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 active:text-blue-500 active:bg-white border border-blue-500"
+            onClick={() => handleAddToCart(Id)}
           >
             Add to Cart
           </button>
 
-          <IncrementDecrement />
+          <IncrementDecrement val={val} setVal={setVal} />
         </div>
       </div>
     </div>

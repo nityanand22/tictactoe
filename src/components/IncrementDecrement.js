@@ -1,10 +1,8 @@
-import React from "react";
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { SearchContext } from "../App";
+import React, { useContext } from "react";
+import { SearchContext } from "../contexts/SearchContext";
 
 const IncrementDecrement = () => {
-  const { val, setVal } = useOutletContext(SearchContext);
+  const { val, setVal } = useContext(SearchContext);
 
   return (
     <div className="flex items-center mt-4">
@@ -17,12 +15,12 @@ const IncrementDecrement = () => {
       >
         ➖
       </button>
-      <span className="px-4 py-[3px] border-t border-b border-gray-300 font-semibold ">
+      <span className="px-4 py-[3px] border-t border-b border-gray-300 font-semibold">
         {val}
       </span>
       <button
         onClick={() => setVal(val + 1)}
-        className="bg-gray-300 text-gray-700 px-3 py-1 rounded-r-lg font-bold focus:outline-none "
+        className="bg-gray-300 text-gray-700 px-3 py-1 rounded-r-lg font-bold focus:outline-none"
         disabled={val >= 10}
       >
         ➕

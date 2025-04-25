@@ -3,10 +3,14 @@ import handleValidation from "../utils/handleValidation";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,11 +19,13 @@ const SignUp = () => {
   });
   const [errorMsg, setErrorMsg] = useState(null);
   const [isSignIn, setSignIn] = useState(true);
-  const { email, password } = formData;
+  const [isLoading, setIsLoading] = useState(false);
+  const { name, email, password, confirmPassword } = formData;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrorMsg(null); // Clear error message
   };
 
   const toggleSignUpForm = () => {
@@ -27,36 +33,62 @@ const SignUp = () => {
   };
 
   const checkValidation = () => {
+    setIsLoading(true); // Start loading
     const error = handleValidation(email, password);
-    setErrorMsg(error);
-    if (error) return;
+    if (error) {
+      setErrorMsg(error);
+      setIsLoading(false); // Stop loading
+      return;
+    }
 
-    // sign in and sign up logic
     if (!isSignIn) {
       // Sign up logic
+      if (password !== confirmPassword) {
+        setErrorMsg("Passwords do not match");
+        setIsLoading(false); // Stop loading
+        return;
+      }
+
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
           console.log(user);
+
+          updateProfile(user, {
+            displayName: name,
+          })
+            .then(() => {
+              const { uid, email, displayName } = auth.currentUser;
+
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                })
+              );
+              setIsLoading(false); // Stop loading
+            })
+            .catch((error) => {
+              setErrorMsg(error.message);
+              setIsLoading(false); // Stop loading
+            });
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMsg(error.code + "-" + error.message);
+          setErrorMsg(`${error.code} - ${error.message}`);
+          setIsLoading(false); // Stop loading
         });
     } else {
-      // sign in logic
+      // Sign in logic
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
           console.log(user);
+          setIsLoading(false); // Stop loading
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMsg(error.code + "-" + error.message);
+          setErrorMsg(`${error.code} - ${error.message}`);
+          setIsLoading(false); // Stop loading
         });
     }
   };
@@ -147,9 +179,10 @@ const SignUp = () => {
             <button
               onClick={checkValidation}
               type="submit"
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600  active:text-blue-600 active:bg-white"
+              className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600 active:text-blue-600 active:bg-white"
+              disabled={isLoading}
             >
-              {isSignIn ? "Sign In" : "Sign Up"}
+              {isLoading ? "Processing..." : isSignIn ? "Sign In" : "Sign Up"}
             </button>
           </div>
           <p

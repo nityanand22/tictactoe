@@ -1,12 +1,51 @@
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
-import { useContext } from "react";
-import { SearchContext } from "../App";
+import { useContext, useEffect, useState } from "react";
+import { SearchContext } from "../contexts/SearchContext";
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
+  const [user, setUser] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onlineStatus = useOnlineStatus();
   const { searchText, setSearchText, filterProducts } =
     useContext(SearchContext);
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {})
+      .catch((error) => {
+        navigate("/error");
+      });
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+          })
+        );
+        setUser(true);
+        navigate("/");
+      } else {
+        dispatch(removeUser());
+        navigate("/signup");
+      }
+    });
+    //* Unsubscribe when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center p-4 bg-white shadow-md">
@@ -29,7 +68,12 @@ const Header = () => {
             <li className="hover:text-blue-500 cursor-pointer">Cart</li>
           </Link>
           <Link to="/signup">
-            <li className="hover:text-blue-500 cursor-pointer">SignUp</li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={handleSignOut}
+            >
+              {!user ? "" : "Sign Out"}
+            </li>
           </Link>
         </ul>
       </nav>
@@ -48,10 +92,6 @@ const Header = () => {
           Search
         </button>
       </div>
-      {/* <div className="flex items-center gap-4">
-        <span className="cursor-pointer">🛒</span>
-        <span className="cursor-pointer">👤</span>
-      </div> */}
     </header>
   );
 };

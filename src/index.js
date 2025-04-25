@@ -10,8 +10,8 @@ import Error from "./components/Error";
 import Body from "./components/Body";
 import ProductPage from "./components/ProductPage";
 import SignUp from "./components/SignUp";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
 
 const Cart = lazy(() => import("./components/Cart"));
 
@@ -39,7 +39,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <Suspense fallback={<h1>Something wrong</h1>}>
+          <Suspense fallback={<h1>Loading...</h1>}>
             <Cart />
           </Suspense>
         ),
@@ -53,9 +53,13 @@ const appRouter = createBrowserRouter([
   },
 ]);
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={appRouter} />
+    <Provider store={appStore}>
+      <RouterProvider router={appRouter} />
+    </Provider>
   </React.StrictMode>
 );
 

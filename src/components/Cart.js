@@ -1,13 +1,8 @@
 import React, { useContext } from "react";
-import { SearchContext } from "../App";
+import { SearchContext } from "../contexts/SearchContext";
 
 const Cart = () => {
-  const { cartData, setCartData, val } = useContext(SearchContext);
-
-  const handleRemoveFromCart = (productId) => {
-    const updatedCart = cartData.filter((product) => product.id !== productId);
-    setCartData(updatedCart);
-  };
+  const { cartData, handleRemoveFromCart, val } = useContext(SearchContext);
 
   return (
     <div className="container mx-auto p-4 md:px-8 lg:px-16">
